@@ -22,8 +22,13 @@ const CategoryProduct = () => {
         };
       };
 
-      const res = await axios.get(`/api/products/category/${category}`)
-      const productsData = res.data?.products || res.data || [];
+      const baseURL =
+      import.meta.env.MODE === "development"
+        ? "/api"
+        : "https://dummyjson.com";
+    
+    const res = await axios.get(`${baseURL}/products/category/${category}`);
+          const productsData = res.data?.products || res.data || [];
       // Transform products to match app's expected format
       const transformedProducts = Array.isArray(productsData) 
         ? productsData.map(transformProduct)

@@ -97,5 +97,5 @@ export const DataProvider = ({ children }) => {
   );
 };
 
-// Custom hook to access DataContext (keeps your original getData naming)
-export const getData = () => useContext(DataContext);
+// Custom hook to access DataContext
+export const useData = () => useContext(DataContext);

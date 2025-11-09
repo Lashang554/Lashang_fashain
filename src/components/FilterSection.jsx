@@ -1,5 +1,5 @@
 import React from 'react'
-import { getData } from '../context/DataContext'
+import { useData } from '../context/DataContext'
 
 const FilterSection = ({
   search,
@@ -16,7 +16,7 @@ const FilterSection = ({
   sortBy,
   handleSortChange
 }) => {
-  const { categoryOnlyData, brandOnlyData } = getData()
+  const { categoryOnlyData, brandOnlyData } = useData()
 
   return (
     <div className="bg-white shadow-lg rounded-xl p-5 hidden md:block w-64">

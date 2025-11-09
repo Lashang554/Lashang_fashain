@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {getData } from '../context/DataContext'
+import {useData } from '../context/DataContext'
 import { useNavigate } from 'react-router-dom'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,7 +8,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import Category from './Category';
 
 const Carousel = () => {
-    const { data, fetchAllProducts, loading } = getData()
+    const { data, fetchAllProducts, loading } = useData()
     const navigate = useNavigate()
 
     useEffect(() => {

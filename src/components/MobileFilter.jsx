@@ -1,10 +1,10 @@
 import React from 'react'
 import { FaFilter } from 'react-icons/fa6'
-import { getData } from '../context/DataContext'
+import { useData } from '../context/DataContext'
 
 
 const MobileFilter = ({ openFilter, setOpenFilter, search, setSearch, brand, setBrand, priceRange, setPriceRange, category, setCategory, handleBrandChange, handleCategoryChange, maxPrice = 5000, sortBy, handleSortChange }) => {
-    const { categoryOnlyData, brandOnlyData } = getData()
+    const { categoryOnlyData, brandOnlyData } = useData()
 
     const toggleFilter = ()=>{
         setOpenFilter(!openFilter)

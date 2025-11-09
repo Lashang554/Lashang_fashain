@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { getData } from '../context/DataContext'
+import { useData } from '../context/DataContext'
 import FilterSection from '../components/FilterSection'
 import Loading from "../assets/Loading4.webm"
 import ProductCard from '../components/ProductCard'
@@ -10,7 +10,7 @@ import notfound from "../assets/notfound.json"
 import MobileFilter from '../components/MobileFilter'
 
 const Products = () => {
-  const contextData = getData()
+  const contextData = useData()
 
   const { data, fetchAllProducts, loading, error } = contextData || {}
 

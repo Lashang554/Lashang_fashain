@@ -1,15 +1,12 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
-import { MapPin } from 'lucide-react'
 import React, { useState } from 'react'
-import { CgClose } from 'react-icons/cg'
-import { FaCaretDown } from 'react-icons/fa'
 import { IoCartOutline } from 'react-icons/io5'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { HiMenuAlt1, HiMenuAlt3 } from 'react-icons/hi'
 import ResponsiveMenu from './ResponsiveMenu'
 
-const Navbar = ({location, getLocation, openDropdown, setOpenDropdown}) => {
+const Navbar = () => {
 
     const {cartItem} = useCart()
     const [openNav, setOpenNav] = useState(false)
@@ -29,55 +26,17 @@ const Navbar = ({location, getLocation, openDropdown, setOpenDropdown}) => {
         setOpenNav(false)
     }
     
-    const toggleDropdown = ()=>{
-        setOpenDropdown(!openDropdown)
-    }
     return (
         <div className="bg-[#f45512] shadow-sm border-b border-[#f45512] sticky top-0 z-50">
           <div className="max-w-7xl mx-auto flex justify-between items-center py-3 px-4">
       
-            {/* LOGO + LOCATION */}
+            {/* LOGO */}
             <div className="flex gap-7 items-center">
               <Link to={"/"}>
                 <h1 className="font-bold text-3xl text-white tracking-wide">
                   Lashang Fashion
                 </h1>
               </Link>
-      
-              {/* Location */}
-              <div className="hidden md:flex gap-1 cursor-pointer text-gray-200 items-center text-sm">
-                <MapPin className="text-[#f9f7f6]" />
-                <span className="font-medium">
-                  {location ? (
-                    <div className="-space-y-2">
-                      <p>{location.county}</p>
-                      <p>{location.state}</p>
-                    </div>
-                  ) : (
-                    "Add Address"
-                  )}
-                </span>
-                <FaCaretDown onClick={toggleDropdown} className="text-gray-300" />
-              </div>
-      
-              {/* Dropdown */}
-              {openDropdown ? (
-                <div className="w-[260px] shadow-xl z-50 bg-white fixed top-16 left-60 border border-gray-200 p-5 rounded-md">
-                  <h1 className="font-semibold mb-3 text-lg flex justify-between">
-                    Change Location{" "}
-                    <span onClick={toggleDropdown} className="cursor-pointer">
-                      <CgClose />
-                    </span>
-                  </h1>
-      
-                  <button
-                    onClick={getLocation}
-                    className="bg-[#F85606] hover:bg-[#dd4a05] text-white px-4 py-2 rounded-md transition-all"
-                  >
-                    Detect my location
-                  </button>
-                </div>
-              ) : null}
             </div>
       
             {/* NAVIGATION + CART + LOGIN */}
@@ -138,7 +97,7 @@ const Navbar = ({location, getLocation, openDropdown, setOpenDropdown}) => {
               <Link to={"/cart"} className="relative">
                 <IoCartOutline className="h-7 w-7 text-white transition-all" />
                 <span className="bg-[#F85606] border-2 border-white px-2 text-center rounded-full absolute -top-3 -right-3 text-white text-xs">
-                  {cartItem.length}
+                  {cartItem.reduce((total, item) => total + (item.quantity || 1), 0)}
                 </span>
               </Link>
       

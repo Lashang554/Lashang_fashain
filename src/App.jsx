@@ -32,6 +32,8 @@ const App = () => {
         const exactLocation = location.data.address
         setLocation(exactLocation)
         setOpenDropdown(false)
+        // Save to localStorage
+        localStorage.setItem('savedLocation', JSON.stringify(exactLocation))
         // console.log(exactLocation);
 
       } catch (error) {
@@ -42,8 +44,28 @@ const App = () => {
     })
   }
 
+  const saveManualLocation = (manualLocation) => {
+    setLocation(manualLocation)
+    setOpenDropdown(false)
+    // Save to localStorage
+    localStorage.setItem('savedLocation', JSON.stringify(manualLocation))
+    // Also save delivery info separately
+    if (manualLocation.fullName || manualLocation.phone) {
+      localStorage.setItem('deliveryInfo', JSON.stringify({
+        fullName: manualLocation.fullName || '',
+        phone: manualLocation.phone || ''
+      }))
+    }
+  }
+
   useEffect(() => {
-    getLocation()
+    // Load saved location from localStorage first
+    const savedLocation = localStorage.getItem('savedLocation')
+    if (savedLocation) {
+      setLocation(JSON.parse(savedLocation))
+    } else {
+      getLocation()
+    }
   }, [])
 
   //Load cart from local storage on initial render
@@ -61,7 +83,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Navbar location={location} getLocation={getLocation} openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} />
+      <Navbar />
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/products' element={<Products />}></Route>
@@ -70,10 +92,10 @@ const App = () => {
         <Route path='/about' element={<About />}></Route>
         <Route path='/contact' element={<Contact />}></Route>
         <Route path='/cart' element={<ProtectedRoute>
-          <Cart location={location} getLocation={getLocation} />
+          <Cart location={location} saveManualLocation={saveManualLocation} />
         </ProtectedRoute>}></Route>
         <Route path='/checkout' element={<ProtectedRoute>
-          <Checkout />
+          <Checkout location={location} saveManualLocation={saveManualLocation} />
         </ProtectedRoute>}></Route>
         <Route path='/order-success' element={<OrderSuccess />}></Route>
       </Routes>

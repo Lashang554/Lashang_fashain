@@ -68,9 +68,9 @@ const Checkout = ({ location, saveManualLocation }) => {
 
   if (cartItem.length === 0) {
     return (
-      <div className='max-w-4xl mx-auto px-4 mt-10'>
-        <h1 className='text-2xl font-bold mb-4'>Your cart is empty</h1>
-        <button onClick={() => navigate('/products')} className='bg-[#F85606] hover:bg-[#d94d05] text-white px-4 py-2 rounded-md'>Shop Products</button>
+      <div className='max-w-4xl mx-auto px-4 mt-10 bg-theme min-h-screen py-5'>
+        <h1 className='text-2xl font-bold mb-4 text-theme-primary'>Your cart is empty</h1>
+        <button onClick={() => navigate('/products')} className='btn-primary px-4 py-2 rounded-md'>Shop Products</button>
       </div>
     )
   }
@@ -78,23 +78,23 @@ const Checkout = ({ location, saveManualLocation }) => {
   // Payment Step
   if (showPayment) {
     return (
-      <div className='max-w-5xl mx-auto px-4 mt-10 mb-10'>
-        <h1 className='text-2xl font-bold mb-2'>Payment</h1>
+      <div className='max-w-5xl mx-auto px-4 mt-10 mb-10 bg-theme min-h-screen py-5'>
+        <h1 className='text-2xl font-bold mb-2 text-theme-primary'>Payment</h1>
         <button onClick={() => setShowPayment(false)} className='text-[#F85606] hover:underline mb-6'>← Back to Checkout</button>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mt-4'>
-          <form onSubmit={onSubmit} className='md:col-span-2 bg-gray-100 rounded-md p-6 space-y-5'>
-            <h2 className='text-lg font-semibold'>Payment Method</h2>
+          <form onSubmit={onSubmit} className='md:col-span-2 bg-surface rounded-md p-6 space-y-5'>
+            <h2 className='text-lg font-semibold text-theme-primary'>Payment Method</h2>
             <div className='grid grid-cols-1 sm:grid-cols-3 gap-3'>
               <button
                 type='button'
                 onClick={()=>setMethod('cod')}
-                className={`text-left rounded-lg border p-4 bg-white hover:shadow transition ${method==='cod' ? 'border-[#F85606] ring-2 ring-[#F85606]/30' : 'border-gray-200'}`}
+                className={`text-left rounded-lg border p-4 card-theme hover:shadow transition ${method==='cod' ? 'border-[#F85606] ring-2 ring-[#F85606]/30' : 'border-theme'}`}
               >
                 <div className='flex items-center gap-3'>
                   <MdLocalShipping className='h-6 w-6 text-[#F85606]' />
                   <div>
-                    <div className='font-semibold'>Cash on Delivery</div>
-                    <div className='text-xs text-gray-500'>Pay when you receive</div>
+                    <div className='font-semibold text-theme-primary'>Cash on Delivery</div>
+                    <div className='text-xs text-theme-tertiary'>Pay when you receive</div>
                   </div>
                 </div>
               </button>
@@ -102,13 +102,13 @@ const Checkout = ({ location, saveManualLocation }) => {
               <button
                 type='button'
                 onClick={()=>setMethod('card')}
-                className={`text-left rounded-lg border p-4 bg-white hover:shadow transition ${method==='card' ? 'border-[#F85606] ring-2 ring-[#F85606]/30' : 'border-gray-200'}`}
+                className={`text-left rounded-lg border p-4 card-theme hover:shadow transition ${method==='card' ? 'border-[#F85606] ring-2 ring-[#F85606]/30' : 'border-theme'}`}
               >
                 <div className='flex items-center gap-3'>
                   <FaMoneyBillWave className='h-6 w-6 text-[#16a34a]' />
                   <div>
-                    <div className='font-semibold'>Credit / Debit Card</div>
-                    <div className='flex items-center gap-2 mt-1 text-[#1f2937]'>
+                    <div className='font-semibold text-theme-primary'>Credit / Debit Card</div>
+                    <div className='flex items-center gap-2 mt-1 text-theme-secondary'>
                       <FaCcVisa className='h-5 w-5 text-[#1a1f71]' />
                       <FaCcMastercard className='h-5 w-5 text-[#eb001b]' />
                       <FaCcAmex className='h-5 w-5 text-[#2e77bb]' />
@@ -120,12 +120,12 @@ const Checkout = ({ location, saveManualLocation }) => {
               <button
                 type='button'
                 onClick={()=>setMethod('wallet')}
-                className={`text-left rounded-lg border p-4 bg-white hover:shadow transition ${method==='wallet' ? 'border-[#F85606] ring-2 ring-[#F85606]/30' : 'border-gray-200'}`}
+                className={`text-left rounded-lg border p-4 card-theme hover:shadow transition ${method==='wallet' ? 'border-[#F85606] ring-2 ring-[#F85606]/30' : 'border-theme'}`}
               >
                 <div className='flex items-center gap-3'>
                   <FaWallet className='h-6 w-6 text-[#10b981]' />
                   <div>
-                    <div className='font-semibold'>Digital Wallet</div>
+                    <div className='font-semibold text-theme-primary'>Digital Wallet</div>
                     <div className='flex items-center gap-2 mt-1'>
                       <span className='text-xs bg-[#10b981] text-white rounded px-2 py-0.5'>eSewa</span>
                       <span className='text-xs bg-[#6d28d9] text-white rounded px-2 py-0.5'>Khalti</span>
@@ -138,46 +138,46 @@ const Checkout = ({ location, saveManualLocation }) => {
 
             {method === 'card' && (
               <div className='space-y-3 pt-2'>
-                <label className='text-sm text-gray-600'>Enter a dummy card number</label>
-                <input value={cardNumber} onChange={(e)=>setCardNumber(e.target.value)} placeholder='4242 4242 4242 4242' className='p-2 rounded-md w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F85606]' />
+                <label className='text-sm text-theme-secondary'>Enter a dummy card number</label>
+                <input value={cardNumber} onChange={(e)=>setCardNumber(e.target.value)} placeholder='4242 4242 4242 4242' className='input-theme p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-[#F85606]' />
               </div>
             )}
 
             {method === 'wallet' && (
               <div className='space-y-3 pt-2'>
-                <label className='text-sm text-gray-600'>Choose provider</label>
-                <select value={walletProvider} onChange={(e)=>setWalletProvider(e.target.value)} className='p-2 rounded-md w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F85606]'>
+                <label className='text-sm text-theme-secondary'>Choose provider</label>
+                <select value={walletProvider} onChange={(e)=>setWalletProvider(e.target.value)} className='input-theme p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-[#F85606]'>
                   <option value='esewa'>eSewa</option>
                   <option value='khalti'>Khalti</option>
                   <option value='paypal'>PayPal</option>
                 </select>
-                <input value={walletId} onChange={(e)=>setWalletId(e.target.value)} placeholder='Wallet ID / Phone (dummy)' className='p-2 rounded-md w-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#F85606]' />
+                <input value={walletId} onChange={(e)=>setWalletId(e.target.value)} placeholder='Wallet ID / Phone (dummy)' className='input-theme p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-[#F85606]' />
               </div>
             )}
 
-            <button disabled={submitting} type='submit' className='bg-[#F85606] hover:bg-[#d94d05] disabled:opacity-70 text-white px-4 py-2 rounded-md w-full font-semibold'>
+            <button disabled={submitting} type='submit' className='btn-primary disabled:opacity-70 px-4 py-2 rounded-md w-full font-semibold'>
               {submitting ? 'Processing...' : method === 'cod' ? 'Place Order' : 'Pay Now'}
             </button>
           </form>
 
           {/* Small Order Summary */}
-          <div className='bg-white border border-gray-100 shadow-xl rounded-md p-6 h-max'>
-            <h2 className='text-lg font-semibold mb-3'>Order Summary</h2>
+          <div className='card-theme shadow-xl rounded-md p-6 h-max'>
+            <h2 className='text-lg font-semibold mb-3 text-theme-primary'>Order Summary</h2>
             <div className='space-y-2 max-h-48 overflow-auto pr-2 mb-3'>
               {cartItem.map((i, idx) => (
-                <div key={idx} className='flex justify-between text-sm border-b border-gray-100 pb-2'>
+                <div key={idx} className='flex justify-between text-sm border-b border-theme pb-2'>
                   <div className='flex-1'>
-                    <p className='line-clamp-1 text-gray-700'>{i.title}</p>
-                    <p className='text-xs text-gray-500'>Item {idx + 1}</p>
+                    <p className='line-clamp-1 text-theme-secondary'>{i.title}</p>
+                    <p className='text-xs text-theme-tertiary'>Item {idx + 1}</p>
                   </div>
-                  <p className='font-semibold ml-2'>${(i.price * (i.quantity || 1)).toFixed(2)}</p>
+                  <p className='font-semibold ml-2 text-theme-primary'>${(i.price * (i.quantity || 1)).toFixed(2)}</p>
                 </div>
               ))}
             </div>
-            <hr className='my-3'/>
-            <div className='flex justify-between text-sm'><span>Items</span><span>${itemsTotal.toFixed(2)}</span></div>
-            <div className='flex justify-between text-sm'><span>Handling</span><span>${handling.toFixed(2)}</span></div>
-            <div className='flex justify-between font-semibold text-base mt-2'><span>Total</span><span>${grandTotal.toFixed(2)}</span></div>
+            <hr className='my-3 border-theme'/>
+            <div className='flex justify-between text-sm text-theme-secondary'><span>Items</span><span>${itemsTotal.toFixed(2)}</span></div>
+            <div className='flex justify-between text-sm text-theme-secondary'><span>Handling</span><span>${handling.toFixed(2)}</span></div>
+            <div className='flex justify-between font-semibold text-base mt-2 text-theme-primary'><span>Total</span><span>${grandTotal.toFixed(2)}</span></div>
           </div>
         </div>
       </div>
@@ -186,13 +186,13 @@ const Checkout = ({ location, saveManualLocation }) => {
 
   // Main Checkout Step
   return (
-    <div className='max-w-6xl mx-auto px-4 mt-10 mb-10'>
-      <h1 className='text-2xl font-bold'>Checkout</h1>
+    <div className='max-w-6xl mx-auto px-4 mt-10 mb-10 bg-theme min-h-screen py-5'>
+      <h1 className='text-2xl font-bold text-theme-primary'>Checkout</h1>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8 mt-8'>
         {/* Delivery Info */}
-        <div className='bg-gray-100 rounded-md p-7 space-y-3'>
+        <div className='bg-surface rounded-md p-7 space-y-3'>
           <div className='flex justify-between items-center mb-4'>
-            <h1 className='text-gray-800 font-bold text-xl'>Delivery Address</h1>
+            <h1 className='text-theme-primary font-bold text-xl'>Delivery Address</h1>
             <button 
               onClick={() => navigate('/cart')} 
               className='flex items-center gap-1 text-[#F85606] hover:text-[#d94d05] font-medium'
@@ -202,7 +202,7 @@ const Checkout = ({ location, saveManualLocation }) => {
             </button>
           </div>
           
-          <div className='space-y-2 text-gray-700'>
+          <div className='space-y-2 text-theme-secondary'>
             <p><span className='font-semibold'>Name:</span> {deliveryInfo.fullName || 'Not provided'}</p>
             <p><span className='font-semibold'>Address:</span> {deliveryInfo.address || 'Not provided'}</p>
             <p><span className='font-semibold'>State:</span> {deliveryInfo.state || 'Not provided'}</p>
@@ -212,26 +212,26 @@ const Checkout = ({ location, saveManualLocation }) => {
         </div>
 
         {/* Order Summary */}
-        <div className='bg-white border border-gray-100 shadow-xl rounded-md p-6 h-max'>
-          <h2 className='text-lg font-semibold mb-4'>Order Summary</h2>
+        <div className='card-theme shadow-xl rounded-md p-6 h-max'>
+          <h2 className='text-lg font-semibold mb-4 text-theme-primary'>Order Summary</h2>
           <div className='space-y-2 max-h-64 overflow-auto pr-2 mb-3'>
             {cartItem.map((i, idx) => (
-              <div key={idx} className='flex justify-between items-center text-sm border-b border-gray-100 pb-2'>
+              <div key={idx} className='flex justify-between items-center text-sm border-b border-theme pb-2'>
                 <div className='flex-1'>
-                  <p className='line-clamp-1 text-gray-700'>{i.title}</p>
-                  <p className='text-xs text-gray-500'>Item {idx + 1}</p>
+                  <p className='line-clamp-1 text-theme-secondary'>{i.title}</p>
+                  <p className='text-xs text-theme-tertiary'>Item {idx + 1}</p>
                 </div>
-                <p className='font-semibold ml-2'>${(i.price * (i.quantity || 1)).toFixed(2)}</p>
+                <p className='font-semibold ml-2 text-theme-primary'>${(i.price * (i.quantity || 1)).toFixed(2)}</p>
               </div>
             ))}
           </div>
-          <hr className='my-3'/>
-          <div className='flex justify-between text-sm'><span>Items</span><span>${itemsTotal.toFixed(2)}</span></div>
-          <div className='flex justify-between text-sm'><span>Handling</span><span>${handling.toFixed(2)}</span></div>
-          <div className='flex justify-between font-semibold text-lg mt-2'><span>Total</span><span className='text-[#F85606]'>${grandTotal.toFixed(2)}</span></div>
+          <hr className='my-3 border-theme'/>
+          <div className='flex justify-between text-sm text-theme-secondary'><span>Items</span><span>${itemsTotal.toFixed(2)}</span></div>
+          <div className='flex justify-between text-sm text-theme-secondary'><span>Handling</span><span>${handling.toFixed(2)}</span></div>
+          <div className='flex justify-between font-semibold text-lg mt-2 text-theme-primary'><span>Total</span><span className='text-[#F85606]'>${grandTotal.toFixed(2)}</span></div>
           <button 
             onClick={() => setShowPayment(true)} 
-            className='bg-[#F85606] hover:bg-[#d94d05] text-white px-4 py-2 rounded-md w-full cursor-pointer mt-6 font-semibold transition-all'
+            className='btn-primary px-4 py-2 rounded-md w-full cursor-pointer mt-6 font-semibold transition-all'
           >
             Proceed to Pay
           </button>

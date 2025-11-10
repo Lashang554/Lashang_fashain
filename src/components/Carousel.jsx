@@ -64,10 +64,10 @@ const Carousel = () => {
 
     return (
         
-            <div className="bg-[#f4f4f4]">
+            <div className="bg-surface">
               <Slider {...settings}>
                 {products?.slice(0, 7)?.map((item, index) => (
-                  <div key={index} className="bg-white">
+                  <div key={index} className="bg-theme">
                     <div className="flex flex-col md:flex-row gap-10 justify-center h-[550px] md:my-0 items-center px-4">
                       
                       {/* TEXT SIDE */}
@@ -76,11 +76,11 @@ const Carousel = () => {
                           Best Deals Just for You
                         </h3>
           
-                        <h1 className="md:text-4xl text-2xl font-bold md:w-[480px] text-black">
+                        <h1 className="md:text-4xl text-2xl font-bold md:w-[480px] text-theme-primary">
                           {item.title}
                         </h1>
           
-                        <p className="md:w-[480px] text-gray-600 leading-6">
+                        <p className="md:w-[480px] text-theme-secondary leading-6">
                           {item.description}
                         </p>
           

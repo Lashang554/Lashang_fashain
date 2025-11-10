@@ -32,7 +32,7 @@ const SingleProduct = () => {
   }
 
   return (
-    <div className='px-4 pb-4 md:px-0'>
+    <div className='px-4 pb-4 md:px-0 bg-theme min-h-screen py-5'>
       <Breadcrums title={SingleProduct.title} />
       <div className='max-w-6xl mx-auto md:p-6 grid grid-cols-1 md:grid-cols-2 gap-10'>
         <div className='w-full'>
@@ -43,37 +43,37 @@ const SingleProduct = () => {
           />
         </div>
         <div className='flex flex-col gap-6'>
-          <h1 className='md:text-3xl text-xl font-bold text-gray-800'>{SingleProduct.title}</h1>
-          <div className='text-gray-700'>
+          <h1 className='md:text-3xl text-xl font-bold text-theme-primary'>{SingleProduct.title}</h1>
+          <div className='text-theme-secondary'>
             {SingleProduct.brand?.toUpperCase()} /
             {SingleProduct.category?.toUpperCase()} /
             {SingleProduct.model}
           </div>
           <p className='text-xl text-[#F85606] font-bold'>
             ${SingleProduct.price}
-            <span className='line-through text-gray-700 ml-2'>
+            <span className='line-through text-theme-tertiary ml-2'>
               ${Math.round(SingleProduct.price + (SingleProduct.price * SingleProduct.discount / 100))}
             </span>
             <span className='bg-[#F85606] text-white px-4 py-2 rounded-full ml-2'>
               {SingleProduct.discount}% discount
             </span>
           </p>
-          <p className='text-gray-600'>{SingleProduct.description}</p>
+          <p className='text-theme-secondary'>{SingleProduct.description}</p>
 
           <div className='flex items-center gap-4'>
-            <label className='text-sm font-medium text-gray-700'>Quantity:</label>
+            <label className='text-sm font-medium text-theme-primary'>Quantity:</label>
             <input
               type="number"
               min={1}
               value={1}
-              className='w-20 border border-gray-300 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-[#F85606]'
+              className='input-theme w-20 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-[#F85606]'
             />
           </div>
 
           <div className='flex gap-4 mt-4'>
             <button
               onClick={() => addToCart(SingleProduct)}
-              className='px-6 flex gap-2 py-2 text-lg bg-[#F85606] hover:bg-[#d94d05] text-white rounded-md'
+              className='btn-primary px-6 flex gap-2 py-2 text-lg rounded-md'
             >
               <IoCartOutline className='w-6 h-6' /> Add to Cart
             </button>

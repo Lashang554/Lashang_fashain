@@ -26,7 +26,7 @@ const Home = () => {
     : []
 
   return (
-    <div className='overflow-x-hidden'>
+    <div className='overflow-x-hidden bg-theme min-h-screen'>
       <Carousel/>
 
       
@@ -36,10 +36,10 @@ const Home = () => {
       {/* Hot Deals */}
       <section className='max-w-7xl mx-auto px-4 mt-12'>
         <div className='flex items-center justify-between'>
-          <h2 className='text-2xl md:text-3xl font-bold'>Hot Deals</h2>
+          <h2 className='text-2xl md:text-3xl font-bold text-theme-primary'>Hot Deals</h2>
           <Link to='/products' className='text-[#F85606] font-semibold'>View all</Link>        </div>
         {loading ? (
-          <div className='h-40 flex items-center justify-center text-gray-600'>Loading...</div>
+          <div className='h-40 flex items-center justify-center text-theme-secondary'>Loading...</div>
         ) : deals.length > 0 ? (
           <div className='grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mt-6'>
             {deals.map((p) => (
@@ -47,18 +47,18 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <div className='text-gray-600 mt-6'>No discounted items right now.</div>
+          <div className='text-theme-secondary mt-6'>No discounted items right now.</div>
         )}
       </section>
 
       {/* New Arrivals */}
       <section className='max-w-7xl mx-auto px-4 mt-12 mb-12'>
         <div className='flex items-center justify-between'>
-          <h2 className='text-2xl md:text-3xl font-bold'>New Arrivals</h2>
+          <h2 className='text-2xl md:text-3xl font-bold text-theme-primary'>New Arrivals</h2>
           <Link to='/products' className='text-[#F85606] font-semibold'>View all</Link>
         </div>
         {loading ? (
-          <div className='h-40 flex items-center justify-center text-gray-600'>Loading...</div>
+          <div className='h-40 flex items-center justify-center text-theme-secondary'>Loading...</div>
         ) : (
           <div className='grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mt-6'>
             {featured.map((p) => (

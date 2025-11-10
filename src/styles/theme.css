@@ -1,0 +1,200 @@
+/* ============================================
+   E-COMMERCE THEME COLOR SYSTEM
+   ============================================ */
+
+:root {
+  /* ===== LIGHT MODE COLORS ===== */
+  
+  /* Background Colors */
+  --color-background: #ffffff;
+  --color-surface: #f9fafb;
+  --color-surface-elevated: #ffffff;
+  --color-surface-hover: #f3f4f6;
+  
+  /* Text Colors */
+  --color-text-primary: #111827;      /* Main text - WCAG AAA */
+  --color-text-secondary: #4b5563;    /* Secondary text - WCAG AA */
+  --color-text-tertiary: #6b7280;     /* Tertiary text */
+  --color-text-inverse: #ffffff;      /* Text on dark backgrounds */
+  
+  /* Border Colors */
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-border-dark: #d1d5db;
+  
+  /* Input Colors */
+  --color-input-bg: #ffffff;
+  --color-input-border: #d1d5db;
+  --color-input-border-focus: #F85606;
+  --color-input-text: #111827;
+  --color-input-placeholder: #9ca3af;
+  
+  /* Card Colors */
+  --color-card-bg: #ffffff;
+  --color-card-border: #e5e7eb;
+  --color-card-shadow: rgba(0, 0, 0, 0.05);
+  --color-card-hover: rgba(0, 0, 0, 0.08);
+  
+  /* Button Colors */
+  --color-button-primary-bg: #F85606;
+  --color-button-primary-hover: #d94d05;
+  --color-button-primary-text: #ffffff;
+  
+  --color-button-secondary-bg: #f3f4f6;
+  --color-button-secondary-hover: #e5e7eb;
+  --color-button-secondary-text: #111827;
+  
+  /* Status Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+  
+  /* Navbar Colors */
+  --color-navbar-bg: #f45512;
+  --color-navbar-text: #ffffff;
+  --color-navbar-hover: #dd4a05;
+}
+
+.dark {
+  /* ===== DARK MODE COLORS ===== */
+  
+  /* Background Colors */
+  --color-background: #111827;        /* Gray-900 */
+  --color-surface: #1f2937;           /* Gray-800 */
+  --color-surface-elevated: #374151;  /* Gray-700 */
+  --color-surface-hover: #4b5563;    /* Gray-600 */
+  
+  /* Text Colors */
+  --color-text-primary: #f9fafb;     /* Main text - WCAG AAA */
+  --color-text-secondary: #d1d5db;  /* Secondary text - WCAG AA */
+  --color-text-tertiary: #9ca3af;   /* Tertiary text */
+  --color-text-inverse: #111827;     /* Text on light backgrounds */
+  
+  /* Border Colors */
+  --color-border: #374151;
+  --color-border-light: #4b5563;
+  --color-border-dark: #1f2937;
+  
+  /* Input Colors */
+  --color-input-bg: #374151;
+  --color-input-border: #4b5563;
+  --color-input-border-focus: #F85606;
+  --color-input-text: #f9fafb;
+  --color-input-placeholder: #6b7280;
+  
+  /* Card Colors */
+  --color-card-bg: #1f2937;
+  --color-card-border: #374151;
+  --color-card-shadow: rgba(0, 0, 0, 0.3);
+  --color-card-hover: rgba(0, 0, 0, 0.4);
+  
+  /* Button Colors */
+  --color-button-primary-bg: #F85606;
+  --color-button-primary-hover: #d94d05;
+  --color-button-primary-text: #ffffff;
+  
+  --color-button-secondary-bg: #374151;
+  --color-button-secondary-hover: #4b5563;
+  --color-button-secondary-text: #f9fafb;
+  
+  /* Status Colors (same in both modes) */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+  
+  /* Navbar Colors */
+  --color-navbar-bg: #f45512;
+  --color-navbar-text: #ffffff;
+  --color-navbar-hover: #dd4a05;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Background utilities */
+.bg-theme {
+  background-color: var(--color-background);
+}
+
+.bg-surface {
+  background-color: var(--color-surface);
+}
+
+.bg-surface-elevated {
+  background-color: var(--color-surface-elevated);
+}
+
+/* Text utilities */
+.text-theme-primary {
+  color: var(--color-text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-theme-tertiary {
+  color: var(--color-text-tertiary);
+}
+
+/* Border utilities */
+.border-theme {
+  border: 1px solid var(--color-border);
+}
+
+.border-theme-light {
+  border: 1px solid var(--color-border-light);
+}
+
+/* Input utilities */
+.input-theme {
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  color: var(--color-input-text);
+}
+
+.input-theme::placeholder {
+  color: var(--color-input-placeholder);
+}
+
+.input-theme:focus {
+  border-color: var(--color-input-border-focus);
+  outline: none;
+  ring: 2px;
+  ring-color: var(--color-input-border-focus);
+  ring-opacity: 0.3;
+}
+
+/* Card utilities */
+.card-theme {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 1px 3px 0 var(--color-card-shadow);
+}
+
+.card-theme:hover {
+  box-shadow: 0 4px 6px -1px var(--color-card-hover);
+}
+
+/* Button utilities */
+.btn-primary {
+  background-color: var(--color-button-primary-bg);
+  color: var(--color-button-primary-text);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-button-primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--color-button-secondary-bg);
+  color: var(--color-button-secondary-text);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-button-secondary-hover);
+}
+

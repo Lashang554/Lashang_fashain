@@ -23,7 +23,7 @@ const Pagination = ({page, pageHandler, dynamicPage}) => {
     <div className='mt-10 space-x-4'>
         <button 
         disabled={page===1} 
-        className={`${page === 1 ? "bg-[#F85606]":"bg-[#F85606]"} text-white px-3 py-1 rounded-md cursor-pointer`}
+        className={`${page === 1 ? "bg-[#F85606] opacity-50":"bg-[#F85606]"} text-white px-3 py-1 rounded-md cursor-pointer disabled:cursor-not-allowed`}
         onClick={()=>pageHandler(page - 1)}
         >Prev</button>
         {
@@ -31,7 +31,7 @@ const Pagination = ({page, pageHandler, dynamicPage}) => {
                 return (
                     <span key={index} 
                     onClick={()=> typeof item === "number" && pageHandler(item)}
-                    className={`cursor-pointer ${item === page ? "font-bold text-[#F85606]": "text-black"}`}
+                    className={`cursor-pointer ${item === page ? "font-bold text-[#F85606]": "text-theme-primary"}`}
                     >
                         {item}
                     </span>
@@ -40,7 +40,7 @@ const Pagination = ({page, pageHandler, dynamicPage}) => {
         }
         <button 
         disabled={page===dynamicPage} 
-        className={`${page === dynamicPage ? "bg-red-400":"bg-red-400"} text-white px-3 py-1 rounded-md cursor-pointer`}
+        className={`${page === dynamicPage ? "bg-[#F85606] opacity-50":"bg-[#F85606]"} text-white px-3 py-1 rounded-md cursor-pointer disabled:cursor-not-allowed`}
         onClick={()=>pageHandler(page + 1)}
         >Next</button>
     </div>

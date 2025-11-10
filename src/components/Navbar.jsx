@@ -3,12 +3,15 @@ import React, { useState } from 'react'
 import { IoCartOutline } from 'react-icons/io5'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { useTheme } from '../context/ThemeContext'
 import { HiMenuAlt1, HiMenuAlt3 } from 'react-icons/hi'
+import { MdDarkMode, MdLightMode } from 'react-icons/md'
 import ResponsiveMenu from './ResponsiveMenu'
 
 const Navbar = () => {
 
     const {cartItem} = useCart()
+    const { theme, toggleTheme } = useTheme()
     const [openNav, setOpenNav] = useState(false)
     const [query, setQuery] = useState("")
     const navigate = useNavigate()
@@ -88,10 +91,24 @@ const Navbar = () => {
                   value={query}
                   onChange={(e)=>setQuery(e.target.value)}
                   placeholder="Search products or categories..."
-                  className="px-3 py-2 rounded-l-md focus:outline-none text-sm w-56"
+                  className="px-3 py-2 rounded-l-md focus:outline-none text-sm w-56 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:placeholder-gray-400 border border-gray-300"
                 />
                 <button type="submit" className="bg-[#F85606] hover:bg-[#dd4a05] text-white px-3 py-2 rounded-r-md text-sm">Search</button>
               </form>
+
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="hidden md:flex items-center justify-center p-2 rounded-md hover:bg-[#dd4a05] transition-all"
+                aria-label="Toggle theme"
+                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              >
+                {theme === 'dark' ? (
+                  <MdLightMode className="h-6 w-6 text-white" />
+                ) : (
+                  <MdDarkMode className="h-6 w-6 text-white" />
+                )}
+              </button>
       
               {/* Cart */}
               <Link to={"/cart"} className="relative">

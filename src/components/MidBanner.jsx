@@ -6,7 +6,7 @@ const MidBanner = () => {
   const navigate = useNavigate()
 
   return (
-    <div id='midbanner' className='bg-gray-100 md:py-24'>
+    <div id='midbanner' className='bg-surface md:py-24'>
       <div className='relative max-w-7xl mx-auto md:rounded-2xl pt-28 bg-cover bg-center h-[550px] md:h-[600px] ' style={{backgroundImage: `url(${banner})`, backgroundPosition:'center', backgroundAttachment: 'fixed'}}>
         <div className='absolute inset-0 bg-black/60 md:rounded-2xl bg-opacity-50 flex items-center justify-center'>
             <div className='text-center text-white px-4'>

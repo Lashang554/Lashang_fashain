@@ -6,6 +6,7 @@ import { ClerkProvider } from '@clerk/clerk-react'
 import { Provider } from 'react-redux'
 import { store } from './store/store.js'
 import { CartProvider } from './context/CartContext.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 import { ToastContainer } from 'react-toastify'
 import ThemedScrollToTop from './components/ThemedScrollToTop'
 
@@ -19,24 +20,26 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
   <Provider store={store}>
-    <CartProvider>
-      <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-        <App />
-        <ThemedScrollToTop />
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick={false}
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-      </ClerkProvider>
-    </CartProvider>
+    <ThemeProvider>
+      <CartProvider>
+        <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+          <App />
+          <ThemedScrollToTop />
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </ClerkProvider>
+      </CartProvider>
+    </ThemeProvider>
   </Provider>
   // </StrictMode>,
 )

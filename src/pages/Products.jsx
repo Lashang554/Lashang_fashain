@@ -4,10 +4,12 @@ import { useGetAllProductsQuery } from '../services/productApi'
 import FilterSection from '../components/FilterSection'
 import Loading from "../assets/Loading4.webm"
 import ProductCard from '../components/ProductCard'
+import ProductListView from '../components/ProductListView'
 import Pagination from '../components/Pagination'
 import Lottie from 'lottie-react'
 import notfound from "../assets/notfound.json"
 import MobileFilter from '../components/MobileFilter'
+import { MdViewList, MdViewModule } from 'react-icons/md'
 
 const Products = () => {
   const { data: products = [], isLoading: loading, error, refetch } = useGetAllProductsQuery()
@@ -21,6 +23,7 @@ const Products = () => {
   const [sortBy, setSortBy] = useState("default")
   const [page, setPage] = useState(1)
   const [openFilter, setOpenFilter] = useState(false)
+  const [viewMode, setViewMode] = useState("grid") // "grid" or "list"
 
   // Calculate max price from products or use default
   const maxPrice = useMemo(() => {
@@ -120,7 +123,7 @@ const Products = () => {
 
 
   return (
-    <div>
+    <div className='bg-theme min-h-screen'>
       <div className='max-w-6xl mx-auto px-4 mb-10'>
         <MobileFilter
           openFilter={openFilter}
@@ -175,24 +178,63 @@ const Products = () => {
               />
 
               {sortedData && sortedData.length > 0 ? (
-                <div className='flex flex-col justify-center items-center'>
-                  <div className='grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-7 mt-10'>
-                    {sortedData.slice(page * 8 - 8, page * 8).map((product, index) => {
-                      if (!product || !product.id) {
-                        console.warn("Invalid product at index:", index, product);
-                        return null;
-                      }
-                      return <ProductCard key={product.id || index} product={product} />
-                    })}
+                <div className='flex flex-col justify-center items-center w-full'>
+                  {/* View Toggle Buttons */}
+                  <div className='flex items-center gap-2 self-end mt-10 mb-4'>
+                    <button
+                      onClick={() => setViewMode("grid")}
+                      className={`p-2 rounded-md transition-all ${
+                        viewMode === "grid"
+                          ? "bg-[#F85606] text-white"
+                          : "bg-surface text-theme-primary hover:bg-surface-hover"
+                      }`}
+                      aria-label="Grid view"
+                    >
+                      <MdViewModule className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode("list")}
+                      className={`p-2 rounded-md transition-all ${
+                        viewMode === "list"
+                          ? "bg-[#F85606] text-white"
+                          : "bg-surface text-theme-primary hover:bg-surface-hover"
+                      }`}
+                      aria-label="List view"
+                    >
+                      <MdViewList className="w-5 h-5" />
+                    </button>
                   </div>
+
+                  {/* Products Display */}
+                  {viewMode === "grid" ? (
+                    <div className='grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-7 w-full'>
+                      {sortedData.slice(page * 8 - 8, page * 8).map((product, index) => {
+                        if (!product || !product.id) {
+                          console.warn("Invalid product at index:", index, product);
+                          return null;
+                        }
+                        return <ProductCard key={product.id || index} product={product} />
+                      })}
+                    </div>
+                  ) : (
+                    <div className='w-full space-y-4'>
+                      {sortedData.slice(page * 8 - 8, page * 8).map((product, index) => {
+                        if (!product || !product.id) {
+                          console.warn("Invalid product at index:", index, product);
+                          return null;
+                        }
+                        return <ProductListView key={product.id || index} product={product} />
+                      })}
+                    </div>
+                  )}
                   <Pagination pageHandler={pageHandler} page={page} dynamicPage={dynamicPage} />
                 </div>
               ) : (
                 <div className='flex justify-center items-center md:h-[600px] md:w-[900px] mt-10'>
                   <div className='text-center'>
                     <Lottie animationData={notfound} classID='w-[500px]' />
-                    <p className='mt-4 text-gray-600'>No products match your filters</p>
-                    <p className='text-sm text-gray-500 mt-2'>Products: {products?.length || 0}, Filtered: {filteredData?.length || 0}</p>
+                    <p className='mt-4 text-theme-secondary'>No products match your filters</p>
+                    <p className='text-sm text-theme-tertiary mt-2'>Products: {products?.length || 0}, Filtered: {filteredData?.length || 0}</p>
                   </div>
                 </div>
               )}
@@ -201,7 +243,7 @@ const Products = () => {
         ) : (
           <div className='flex items-center justify-center h-[400px]'>
             <div className='text-center'>
-              <p className='text-xl text-gray-600 mb-4'>No products found</p>
+              <p className='text-xl text-theme-secondary mb-4'>No products found</p>
               <button onClick={refetch} className='bg-[#F85606] hover:bg-[#d94d05] text-white px-4 py-2 rounded-md'>
                 Retry
               </button>

@@ -1,25 +1,31 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loading from "../assets/Loading4.webm"
 import { ChevronLeft } from 'lucide-react'
 import ProductListView from '../components/ProductListView'
 import ProductCard from '../components/ProductCard'
 import FilterSection from '../components/FilterSection'
-import { useGetProductByCategoryQuery } from '../services/productApi'
+import { useGetAllProductsQuery } from '../services/productApi'
 import { MdViewList, MdViewModule } from 'react-icons/md'
 
-const CategoryProduct = () => {
+const BrandProduct = () => {
   const params = useParams()
-  const category = params.category
+  const brand = params.brand
   const navigate = useNavigate()
-  const { data: response, isLoading } = useGetProductByCategoryQuery({ category, page: 1, limit: 100 })
+  const { data: products = [], isLoading } = useGetAllProductsQuery()
   const [viewMode, setViewMode] = useState("grid") // "grid" or "list"
-  const [selectedCategory, setSelectedCategory] = useState(category)
-  const [selectedBrand, setSelectedBrand] = useState("All")
+  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [selectedBrand, setSelectedBrand] = useState(brand)
   const [sortBy, setSortBy] = useState("default")
   const [priceRange, setPriceRange] = useState([0, 5000])
   
-  const searchData = response?.products || []
+  // Filter products by brand
+  const searchData = useMemo(() => {
+    if (!brand || !products || !Array.isArray(products)) return []
+    return products.filter(product => 
+      product.brand && product.brand.toLowerCase() === brand.toLowerCase()
+    )
+  }, [products, brand])
   
   // Calculate max price
   const maxPrice = useMemo(() => {
@@ -37,10 +43,10 @@ const CategoryProduct = () => {
     if (!searchData || !Array.isArray(searchData)) return []
     
     let filtered = searchData.filter((item) => {
-      const matchesBrand = selectedBrand === "All" || item.brand === selectedBrand
+      const matchesCategory = selectedCategory === "All" || item.category === selectedCategory
       const itemPrice = typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0
       const matchesPrice = itemPrice >= priceRange[0] && itemPrice <= priceRange[1]
-      return matchesBrand && matchesPrice
+      return matchesCategory && matchesPrice
     })
     
     // Sort
@@ -58,7 +64,7 @@ const CategoryProduct = () => {
     }
     
     return filtered
-  }, [searchData, selectedBrand, priceRange, sortBy])
+  }, [searchData, selectedCategory, priceRange, sortBy])
   
   const handleCategoryChange = (e) => {
     const newCategory = e.target.value
@@ -72,7 +78,7 @@ const CategoryProduct = () => {
   const handleBrandChange = (e) => {
     const newBrand = e.target.value
     if (newBrand === 'All') {
-      setSelectedBrand('All')
+      navigate('/products')
     } else {
       navigate(`/products/brand/${newBrand}`)
     }
@@ -84,8 +90,8 @@ const CategoryProduct = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    setSelectedCategory(category)
-  }, [category])
+    setSelectedBrand(brand)
+  }, [brand])
   
   if (isLoading) {
     return (
@@ -176,7 +182,7 @@ const CategoryProduct = () => {
         ):(
           <div className='flex items-center justify-center h-[400px]'>
             <div className='text-center'>
-              <p className='text-xl text-theme-secondary'>No products found in this category</p>
+              <p className='text-xl text-theme-secondary'>No products found for this brand</p>
             </div>
           </div>
         )
@@ -185,4 +191,5 @@ const CategoryProduct = () => {
   )
 }
 
-export default CategoryProduct
+export default BrandProduct
+

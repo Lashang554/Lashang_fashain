@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@import "./styles/theme.css";
 
 /* clerk user button adjust */
 
@@ -14,11 +14,13 @@
   width: 40px;
   margin: 1px;
 }
+/* Input defaults - will be overridden by theme.css in dark mode */
+input:not([type="checkbox"]):not([type="radio"]) {
+  background-color: var(--color-input-bg);
+  border-color: var(--color-input-border);
+  color: var(--color-input-text);
+}
 
-/* input colours */
-input {
-  background-color: #ffffff;
-  accent-color: red;
-  border: 1px solid #ccc;
-  color: #333;
+input::placeholder {
+  color: var(--color-input-placeholder);
 }

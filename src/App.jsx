@@ -10,6 +10,7 @@ import axios from 'axios'
 import Footer from './components/Footer'
 import SingleProduct from './pages/SingleProduct'
 import CategoryProduct from './pages/CategoryProduct'
+import BrandProduct from './pages/BrandProduct'
 import { useCart } from './context/CartContext'
 import Checkout from './pages/Checkout'
 import OrderSuccess from './pages/OrderSuccess'
@@ -88,7 +89,8 @@ const App = () => {
         <Route path='/' element={<Home />}></Route>
         <Route path='/products' element={<Products />}></Route>
         <Route path='/products/:id' element={<SingleProduct />}></Route>
-        <Route path='/category/:category' element={<CategoryProduct />}></Route>
+        <Route path='/products/category/:category' element={<CategoryProduct />}></Route>
+        <Route path='/products/brand/:brand' element={<BrandProduct />}></Route>
         <Route path='/about' element={<About />}></Route>
         <Route path='/contact' element={<Contact />}></Route>
         <Route path='/cart' element={<ProtectedRoute>

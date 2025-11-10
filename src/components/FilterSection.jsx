@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { useGetAllProductsQuery } from '../services/productApi'
+import { useNavigate } from 'react-router-dom'
 
 const FilterSection = ({
   search,
@@ -17,6 +18,7 @@ const FilterSection = ({
   handleSortChange
 }) => {
   const { data: products = [] } = useGetAllProductsQuery()
+  const navigate = useNavigate()
 
   // Get unique categories
   const categoryOnlyData = useMemo(() => {
@@ -35,11 +37,11 @@ const FilterSection = ({
   }, [products])
 
   return (
-    <div className="bg-white shadow-lg rounded-xl p-5 hidden md:block w-64">
+    <div className="card-theme shadow-lg rounded-xl p-5 hidden md:block w-64">
     
 
       {/* Category Filter */}
-      <h1 className="mt-6 font-semibold text-lg text-gray-800">Category</h1>
+      <h1 className="mt-6 font-semibold text-lg text-theme-primary">Category</h1>
       <div className="flex flex-col gap-3 mt-2">
         {categoryOnlyData
           ?.filter((item) => item != null)
@@ -50,20 +52,34 @@ const FilterSection = ({
                 name={item}
                 checked={category === item}
                 value={item}
-                onChange={handleCategoryChange}
+                onChange={(e) => {
+                  const selectedCategory = e.target.value
+                  if (selectedCategory === 'All') {
+                    handleCategoryChange(e)
+                  } else {
+                    navigate(`/products/category/${selectedCategory}`)
+                  }
+                }}
                 className="accent-[#F85606] w-4 h-4"
               />
-              <span className="uppercase text-gray-700">{item}</span>
+              <span className="uppercase text-theme-secondary">{item}</span>
             </label>
           ))}
       </div>
 
       {/* Brand Filter */}
-      <h1 className="mt-6 font-semibold text-lg text-gray-800">Brand</h1>
+      <h1 className="mt-6 font-semibold text-lg text-theme-primary">Brand</h1>
       <select
         value={brand}
-        onChange={handleBrandChange}
-        className="bg-gray-100 w-full p-2 border border-gray-300 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-[#F85606]"
+        onChange={(e) => {
+          const selectedBrand = e.target.value
+          if (selectedBrand === 'All') {
+            handleBrandChange(e)
+          } else {
+            navigate(`/products/brand/${selectedBrand}`)
+          }
+        }}
+        className="input-theme w-full p-2 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-[#F85606]"
       >
         {brandOnlyData
           ?.filter((item) => item != null)
@@ -75,11 +91,11 @@ const FilterSection = ({
       </select>
 
       {/* Sort by Price */}
-      <h1 className="mt-6 font-semibold text-lg text-gray-800">Sort By Price</h1>
+      <h1 className="mt-6 font-semibold text-lg text-theme-primary">Sort By Price</h1>
       <select
         value={sortBy}
         onChange={handleSortChange}
-        className="bg-gray-100 w-full p-2 border border-gray-300 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-[#F85606]"
+        className="input-theme w-full p-2 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-[#F85606]"
       >
         <option value="default">Default</option>
         <option value="lowToHigh">Low to High</option>

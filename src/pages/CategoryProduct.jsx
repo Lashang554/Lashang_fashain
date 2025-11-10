@@ -1,51 +1,32 @@
-import axios from 'axios'
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loading from "../assets/Loading4.webm"
 import { ChevronLeft } from 'lucide-react'
 import ProductListView from '../components/ProductListView'
+import { useGetProductByCategoryQuery } from '../services/productApi'
 
 const CategoryProduct = () => {
-  const [searchData, setSearchData] = useState([])
   const params = useParams()
   const category = params.category
   const navigate = useNavigate()
-
-  const getFilterData = useCallback(async ()=>{
-    try {
-      // Transform dummyjson product to match app's expected format
-      const transformProduct = (product) => {
-        return {
-          ...product,
-          discount: product.discountPercentage ? Math.round(product.discountPercentage) : 0,
-          image: product.images?.[0] || product.thumbnail || product.image || '',
-        };
-      };
-
-      const baseURL =
-      import.meta.env.MODE === "development"
-        ? "/api"
-        : "https://dummyjson.com";
-    
-    const res = await axios.get(`${baseURL}/products/category/${category}`);
-          const productsData = res.data?.products || res.data || [];
-      // Transform products to match app's expected format
-      const transformedProducts = Array.isArray(productsData) 
-        ? productsData.map(transformProduct)
-        : [];
-      setSearchData(transformedProducts)
-
-    } catch (error) {
-      console.log(error);
-      setSearchData([]);
-    }
-  }, [category])
-
-  useEffect(()=>{
-    getFilterData()
-    window.scrollTo(0,0)
-  },[getFilterData])
+  const { data: response, isLoading } = useGetProductByCategoryQuery({ category, page: 1, limit: 100 })
   
+  const searchData = response?.products || []
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [category])
+  
+  if (isLoading) {
+    return (
+      <div className='flex items-center justify-center h-[400px]'>
+        <video muted autoPlay loop>
+          <source src={Loading} type='video/webm'/>
+        </video>
+      </div>
+    )
+  }
+
   return (
     <div>
       {
@@ -54,15 +35,15 @@ const CategoryProduct = () => {
              <button onClick={()=>navigate('/')} className='bg-gray-800 mb-5 text-white px-3 py-1 rounded-md cursor-pointer flex gap-1 items-center'><ChevronLeft/> Back</button>
              {
               searchData.map((product, index) =>{
-                return <ProductListView key={index} product={product}/>
+                return <ProductListView key={product.id || index} product={product}/>
               })
              }
           </div>
         ):(
           <div className='flex items-center justify-center h-[400px]'>
-             <video muted autoPlay loop>
-              <source src={Loading} type='video/webm'/>
-             </video>
+            <div className='text-center'>
+              <p className='text-xl text-gray-600'>No products found in this category</p>
+            </div>
           </div>
         )
       }

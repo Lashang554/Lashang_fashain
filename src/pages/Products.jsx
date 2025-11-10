@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useData } from '../context/DataContext'
+import { useGetAllProductsQuery } from '../services/productApi'
 import FilterSection from '../components/FilterSection'
 import Loading from "../assets/Loading4.webm"
 import ProductCard from '../components/ProductCard'
@@ -10,9 +10,7 @@ import notfound from "../assets/notfound.json"
 import MobileFilter from '../components/MobileFilter'
 
 const Products = () => {
-  const contextData = useData()
-
-  const { data, fetchAllProducts, loading, error } = contextData || {}
+  const { data: products = [], isLoading: loading, error, refetch } = useGetAllProductsQuery()
 
   const [search, setSearch] = useState("")
   const [searchParams, setSearchParams] = useSearchParams()
@@ -24,21 +22,24 @@ const Products = () => {
   const [page, setPage] = useState(1)
   const [openFilter, setOpenFilter] = useState(false)
 
-  // Calculate max price from data or use default
-  const maxPrice = data && Array.isArray(data) && data.length > 0
-    ? Math.max(...data.map(item => {
-      const price = typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
-      return price;
-    }))
-    : 5000;
+  // Calculate max price from products or use default
+  const maxPrice = useMemo(() => {
+    if (products && Array.isArray(products) && products.length > 0) {
+      return Math.max(...products.map(item => {
+        const price = typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
+        return price;
+      }))
+    }
+    return 5000;
+  }, [products])
 
   // Initialize price range only once on first data load
   useEffect(() => {
-    if (!hasInitializedPriceRef.current && data && Array.isArray(data) && data.length > 0) {
+    if (!hasInitializedPriceRef.current && products && Array.isArray(products) && products.length > 0) {
       hasInitializedPriceRef.current = true
       console.log("Price range initialized:", priceRange)
     }
-  }, [data, priceRange])
+  }, [products, priceRange])
 
   // Initialize search from URL query param `q`
   useEffect(() => {
@@ -47,14 +48,8 @@ const Products = () => {
   }, [searchParams])
 
   useEffect(() => {
-    console.log("Products page mounted, fetching products...");
-    if (fetchAllProducts) {
-      fetchAllProducts()
-    } else {
-      console.error("fetchAllProducts is not available!");
-    }
     window.scrollTo(0, 0)
-  }, [fetchAllProducts])
+  }, [])
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value)
@@ -83,7 +78,7 @@ const Products = () => {
     window.scrollTo(0, 0)
   }
 
-  const filteredData = data && Array.isArray(data) ? data.filter((item) => {
+  const filteredData = products && Array.isArray(products) ? products.filter((item) => {
     if (!item || !item.title) {
       console.warn("Invalid item in filter:", item);
       return false;
@@ -100,23 +95,6 @@ const Products = () => {
     const matchesPrice = itemPrice >= priceRange[0] && itemPrice <= priceRange[1];
 
     const passesFilter = matchesSearch && matchesCategory && matchesBrand && matchesPrice;
-
-    if (data.length > 0 && item === data[0]) {
-      console.log("First product filter check:", {
-        title: item.title,
-        category: item.category,
-        brand: item.brand,
-        price: item.price,
-        priceType: typeof item.price,
-        itemPrice,
-        priceRange,
-        matchesSearch,
-        matchesCategory,
-        matchesBrand,
-        matchesPrice,
-        passesFilter
-      });
-    }
 
     return passesFilter;
   }) : [];
@@ -140,33 +118,6 @@ const Products = () => {
     setPage(1);
   }
 
-  useEffect(() => {
-    console.log("Products component state:", {
-      dataLength: data?.length || 0,
-      loading,
-      error,
-      hasData: !!data,
-      isArray: Array.isArray(data),
-      filteredLength: filteredData.length
-    });
-    if (data && data.length > 0) {
-      console.log("Products data loaded:", data.length, "products");
-      console.log("Sample product:", data[0]);
-    } else if (!loading && data && data.length === 0) {
-      console.warn("No products in data array!");
-    }
-  }, [data, loading, error, filteredData.length]);
-
-  if (!contextData) {
-    return (
-      <div className='flex items-center justify-center h-screen'>
-        <div className='text-center'>
-          <p className='text-xl text-red-600 mb-4'>Error: DataContext not available</p>
-          <p>Please refresh the page.</p>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div>
@@ -198,13 +149,13 @@ const Products = () => {
         ) : error ? (
           <div className='flex items-center justify-center h-[400px]'>
             <div className='text-center'>
-              <p className='text-xl text-[#F85606] mb-4'>Error: {error}</p>
-              <button onClick={fetchAllProducts} className='bg-[#F85606] hover:bg-[#d94d05] text-white px-4 py-2 rounded-md'>
+              <p className='text-xl text-[#F85606] mb-4'>Error: {error?.message || 'Failed to load products'}</p>
+              <button onClick={refetch} className='bg-[#F85606] hover:bg-[#d94d05] text-white px-4 py-2 rounded-md'>
                 Retry
               </button>
             </div>
           </div>
-        ) : data && Array.isArray(data) && data.length > 0 ? (
+        ) : products && Array.isArray(products) && products.length > 0 ? (
           <>
             <div className='flex gap-8'>
               <FilterSection
@@ -241,7 +192,7 @@ const Products = () => {
                   <div className='text-center'>
                     <Lottie animationData={notfound} classID='w-[500px]' />
                     <p className='mt-4 text-gray-600'>No products match your filters</p>
-                    <p className='text-sm text-gray-500 mt-2'>Data length: {data?.length || 0}, Filtered: {filteredData?.length || 0}</p>
+                    <p className='text-sm text-gray-500 mt-2'>Products: {products?.length || 0}, Filtered: {filteredData?.length || 0}</p>
                   </div>
                 </div>
               )}
@@ -251,7 +202,7 @@ const Products = () => {
           <div className='flex items-center justify-center h-[400px]'>
             <div className='text-center'>
               <p className='text-xl text-gray-600 mb-4'>No products found</p>
-              <button onClick={fetchAllProducts} className='bg-[#F85606] hover:bg-[#d94d05] text-white px-4 py-2 rounded-md'>
+              <button onClick={refetch} className='bg-[#F85606] hover:bg-[#d94d05] text-white px-4 py-2 rounded-md'>
                 Retry
               </button>
             </div>

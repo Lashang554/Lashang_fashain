@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { ClerkProvider } from '@clerk/clerk-react'
-import { DataProvider } from './context/DataContext.jsx'
+import { Provider } from 'react-redux'
+import { store } from './store/store.js'
 import { CartProvider } from './context/CartContext.jsx'
 import { ToastContainer } from 'react-toastify'
 import ThemedScrollToTop from './components/ThemedScrollToTop'
@@ -17,7 +18,7 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
-  <DataProvider>
+  <Provider store={store}>
     <CartProvider>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
         <App />
@@ -36,6 +37,6 @@ createRoot(document.getElementById('root')).render(
         />
       </ClerkProvider>
     </CartProvider>
-  </DataProvider>
+  </Provider>
   // </StrictMode>,
 )

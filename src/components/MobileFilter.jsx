@@ -1,10 +1,26 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FaFilter } from 'react-icons/fa6'
-import { useData } from '../context/DataContext'
+import { useGetAllProductsQuery } from '../services/productApi'
 
 
 const MobileFilter = ({ openFilter, setOpenFilter, search, setSearch, brand, setBrand, priceRange, setPriceRange, category, setCategory, handleBrandChange, handleCategoryChange, maxPrice = 5000, sortBy, handleSortChange }) => {
-    const { categoryOnlyData, brandOnlyData } = useData()
+    const { data: products = [] } = useGetAllProductsQuery()
+
+    // Get unique categories
+    const categoryOnlyData = useMemo(() => {
+      const categories = products
+        ?.map((item) => item?.category)
+        .filter((val) => val != null && val !== '')
+      return ['All', ...new Set(categories)]
+    }, [products])
+
+    // Get unique brands
+    const brandOnlyData = useMemo(() => {
+      const brands = products
+        ?.map((item) => item?.brand)
+        .filter((val) => val != null && val !== '')
+      return ['All', ...new Set(brands)]
+    }, [products])
 
     const toggleFilter = ()=>{
         setOpenFilter(!openFilter)

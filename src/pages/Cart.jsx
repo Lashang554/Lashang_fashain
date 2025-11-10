@@ -58,7 +58,7 @@ const Cart = ({location, saveManualLocation}) => {
     <div className='mt-10 max-w-6xl mx-auto mb-5 px-4 md:px-0'>
       {
         cartItem.length > 0 ? <div>
-          <h1 className='font-bold text-2xl'>My Cart ({totalQuantity} {totalQuantity === 1 ? 'item' : 'items'})</h1>
+          <h1 className='font-bold text-2xl'>My Cart - total ({totalQuantity} {totalQuantity === 1 ? 'item' : 'items'})</h1>
           <div>
             <div className='mt-10'>
               {cartItem.map((item, index) => {
@@ -168,15 +168,20 @@ const Cart = ({location, saveManualLocation}) => {
                 
                 {/* Item Breakdown */}
                 <div className='space-y-2 max-h-48 overflow-auto pr-2 mb-3'>
-                  {cartItem.map((item, idx) => (
-                    <div key={idx} className='flex justify-between items-center text-sm border-b border-gray-100 pb-2'>
-                      <div className='flex-1'>
-                        <p className='line-clamp-1 text-gray-700'>{item.title}</p>
-                        <p className='text-xs text-gray-500'>Item {idx + 1}</p>
+                  {cartItem.map((item, itemIdx) => {
+                    const quantity = item.quantity || 1
+                    const itemSubtotal = item.price * quantity
+                    
+                    return (
+                      <div key={item.id || itemIdx} className='flex justify-between items-center text-sm border-b border-gray-100 pb-2'>
+                        <div className='flex-1'>
+                          <p className='line-clamp-1 text-gray-700'>{item.title}</p>
+                          <p className='text-xs text-gray-500'>Item {quantity}</p>
+                        </div>
+                        <p className='font-semibold ml-2'>${itemSubtotal.toFixed(2)}</p>
                       </div>
-                      <p className='font-semibold ml-2'>${(item.price * (item.quantity || 1)).toFixed(2)}</p>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
 
                 <div className='flex justify-between items-center pt-2'>

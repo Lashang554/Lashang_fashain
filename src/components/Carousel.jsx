@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import {useData } from '../context/DataContext'
+import React from 'react'
+import { useGetAllProductsQuery } from '../services/productApi'
 import { useNavigate } from 'react-router-dom'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,12 +8,8 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import Category from './Category';
 
 const Carousel = () => {
-    const { data, fetchAllProducts, loading } = useData()
+    const { data: products = [], isLoading: loading } = useGetAllProductsQuery()
     const navigate = useNavigate()
-
-    useEffect(() => {
-        fetchAllProducts()
-    }, [fetchAllProducts])
 
     const SamplePrevArrow = (props) => {
         const {className, style, onClick} = props;
@@ -58,7 +54,7 @@ const Carousel = () => {
     }
 
     // Show message if no data
-    if (!data || data.length === 0) {
+    if (!products || products.length === 0) {
         return (
             <div className='bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e] h-[600px] flex items-center justify-center'>
                 <div className='text-white text-xl'>No products available</div>
@@ -70,7 +66,7 @@ const Carousel = () => {
         
             <div className="bg-[#f4f4f4]">
               <Slider {...settings}>
-                {data?.slice(0, 7)?.map((item, index) => (
+                {products?.slice(0, 7)?.map((item, index) => (
                   <div key={index} className="bg-white">
                     <div className="flex flex-col md:flex-row gap-10 justify-center h-[550px] md:my-0 items-center px-4">
                       

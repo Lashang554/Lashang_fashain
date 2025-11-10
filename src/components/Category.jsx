@@ -1,18 +1,17 @@
-import React from 'react'
-import { useData } from '../context/DataContext'
+import React, { useMemo } from 'react'
+import { useGetAllProductsQuery } from '../services/productApi'
 import { useNavigate } from 'react-router-dom'
 
 const Category = () => {
   const navigate = useNavigate()
-  const { data } = useData()
+  const { data: products = [] } = useGetAllProductsQuery()
 
-  const getUniqueCategory = (data, property) => {
-    let newVal = data?.map((curElem) => curElem[property]);
-    newVal = [...new Set(newVal)];
-    return newVal;
-  };
-
-  const categoryOnlyData = getUniqueCategory(data, "category")?.slice(6, 12);
+  const categoryOnlyData = useMemo(() => {
+    const categories = products
+      ?.map((item) => item?.category)
+      .filter((val) => val != null && val !== '')
+    return [...new Set(categories)]?.slice(6, 12)
+  }, [products])
 
   return (
     <div className="bg-white">

@@ -1,5 +1,5 @@
-import React from 'react'
-import { useData } from '../context/DataContext'
+import React, { useMemo } from 'react'
+import { useGetAllProductsQuery } from '../services/productApi'
 
 const FilterSection = ({
   search,
@@ -16,7 +16,23 @@ const FilterSection = ({
   sortBy,
   handleSortChange
 }) => {
-  const { categoryOnlyData, brandOnlyData } = useData()
+  const { data: products = [] } = useGetAllProductsQuery()
+
+  // Get unique categories
+  const categoryOnlyData = useMemo(() => {
+    const categories = products
+      ?.map((item) => item?.category)
+      .filter((val) => val != null && val !== '')
+    return ['All', ...new Set(categories)]
+  }, [products])
+
+  // Get unique brands
+  const brandOnlyData = useMemo(() => {
+    const brands = products
+      ?.map((item) => item?.brand)
+      .filter((val) => val != null && val !== '')
+    return ['All', ...new Set(brands)]
+  }, [products])
 
   return (
     <div className="bg-white shadow-lg rounded-xl p-5 hidden md:block w-64">
